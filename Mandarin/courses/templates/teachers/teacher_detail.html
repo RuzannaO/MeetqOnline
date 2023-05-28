@@ -1,0 +1,271 @@
+{% extends "base.html" %} {% load crispy_forms_tags %} {% block content %}
+<div class="container py-5">
+  <div class="position-relative pb-5">
+    {% if user.teacher.id == teacher.id %}
+    <button class="btn secondary-button edit-button" type="submit">
+      <a href="{% url 'update_profile' %}">Edit profile</a>
+    </button>
+    {% endif %}
+    <div class="row">
+      <div class="col-lg-4 col-md-5 col-sm-12">
+        <img class="account-img" src="{{ teacher.image.url }}" />
+      </div>
+      <div class="col-lg-8 col-md-7 col-sm-12 pt-2">
+        <h4>{{ teacher.user.get_full_name }}</h4>
+        {% if teacher.amount_of_comments > 0 %}
+        <div class="rating pb-3">
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star {% if teacher.avg_rate >= 1.5 %} checked {% endif %}"></span>
+          <span class="fa fa-star {% if teacher.avg_rate >= 2.5 %} checked {% endif %}"></span>
+          <span class="fa fa-star {% if teacher.avg_rate >= 3.5 %} checked {% endif %}"></span>
+          <span class="fa fa-star {% if teacher.avg_rate >= 4.5 %} checked {% endif %} "></span>
+        </div>
+        {% endif %}
+        <p class="mb-0"><strong>Bio:</strong> {{teacher.bio}}</p>
+        <p><strong>Languages:</strong> {{teacher.languages}}</p>
+        <p>{{teacher.description |linebreaks}}</p>
+        {% if user.is_student %}
+        <a href="#write-review">
+          <button class="btn my-2 my-sm-0 main-button mr-4">
+            Write a review
+          </button></a
+        >
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="teacher-tabs border-bottom py-5">
+    <ul
+      class="nav nav-pills justify-content-center"
+      id="pills-tab"
+      role="tablist"
+    >
+      <li class="nav-item">
+        <a
+          class="nav-link active"
+          id="pills-courses-tab"
+          data-toggle="pill"
+          href="#pills-courses"
+          role="tab"
+          aria-controls="pills-courses"
+          aria-selected="true"
+          >Courses</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          id="pills-reviews-tab"
+          data-toggle="pill"
+          href="#pills-reviews"
+          role="tab"
+          aria-controls="pills-reviews"
+          aria-selected="false"
+          >Reviews</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          id="pills-videos-tab"
+          data-toggle="pill"
+          href="#pills-videos"
+          role="tab"
+          aria-controls="pills-videos"
+          aria-selected="false"
+          >Videos</a
+        >
+      </li>
+    </ul>
+    <div class="tab-content teacher-tabs-content pb-4" id="pills-tabContent">
+      <div
+        class="tab-pane fade show active"
+        id="pills-courses"
+        role="tabpanel"
+        aria-labelledby="pills-courses-tab"
+      >
+        <div class="row">
+          <h4 class="mx-auto py-4">My Courses</h4>
+          <div class="row justify-content-center suggested-courses">
+          </div>
+
+		 <div class="owl-carousel course-detail-owl-carousel corses-wrapper mt-0 pt-0">
+			{% for course in teacher.course_set.all %}
+			<a href="{% url 'course_detail' course.id %}">
+			  <div class="card">
+				<img
+				  class="card-img-top"
+				  src="{{course.image.url}}"
+				  alt="image"
+				/>
+				<div class="card-body">
+				  <h5 class="card-title">{{course.name}}</h5>
+				  <ul>
+					{% if course.min_age_individual and course.max_age_individual %}
+					  <li>Ages {{course.min_age_individual}}-{{course.max_age_individual}}</li>
+					{% elif course.min_age_individual %}
+					  <li>Ages {{course.min_age_individual}}+</li>
+					{% elif course.max_age_individual %}
+					  <li>Ages {{course.max_age_individual}}+</li>
+					{% elif course.min_age_group and course.max_age_group %}
+					  <li>Ages {{course.min_age_group}}-{{course.max_age_group}}</li>
+					{% elif course.min_age_group %}
+					  <li>Ages {{course.min_age_group}}+</li>
+					{% elif course.max_age_group %}
+					  <li>Ages {{course.max_age_group}}+</li>
+					{% else %}
+					  <li>Ages No limit</li>
+					{% endif %}
+					<li>Type - {{course.room_type}}</li>
+				  </ul>
+				  <div class="trainer-info">
+					<img
+					  class="rounded-circle"
+					  alt="tutor"
+					  src="{{course.teacher.image.url}}"
+					/>
+					<div class="trainer-detail">
+					  <h6 class="m-0">{{course.teacher.user.get_full_name}}</h6>
+					  <p style ="font-size: 12px;">{{course.teacher.bio}}</p>
+					</div>
+				  </div>
+				</div>
+			  </div>
+			</a>
+			 {% endfor %}
+		  </div>
+        </div>
+          {% if teacher.verified == False %}
+            <h6>The account is in verification process.</h6>
+          {% elif not teacher.course_set.all %}
+              There is no course.
+          {%endif%}
+      </div>
+
+      <div
+        class="tab-pane fade"
+        id="pills-reviews"
+        role="tabpanel"
+        aria-labelledby="pills-reviews-tab"
+      >
+          <h4 class="mx-auto py-4 text-center">My Reviews</h4>
+          <div class="review-block">
+            {% for comment in comments%}
+            <div class="row">
+              <div class="col-sm-3">
+                <a href="{% url 'student_detail' comment.writer.id %}">
+                <img
+                  src="{{comment.writer.image.url}}"
+                  class="img-rounded"
+                />
+                  </a>
+                <div class="review-block-name"><a href="#">{{comment.writer.user.get_full_name}}</a></div>
+                <div class="review-block-date font-italic">
+                  {{comment.create_at|date:"M d, Y"}}
+                </div>
+              </div>
+              <div class="col-sm-9">
+                <div class="rating">
+                  {% if comment.rate %}
+                    <div class="rating">
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star {% if comment.rate >= 1.5 %} checked {% endif %}"></span>
+                      <span class="fa fa-star {% if comment.rate >= 2.5 %} checked {% endif %}"></span>
+                      <span class="fa fa-star {% if comment.rate >= 3.5 %} checked {% endif %}"></span>
+                      <span class="fa fa-star {% if comment.rate >= 4.5 %} checked {% endif %} "></span>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="review-block-description">
+                  {{comment.comment_text}}
+                </div>
+              </div>
+            </div>
+              {% empty %}
+              <p class="text-center">There is not review yet</p>
+            {% endfor %}
+          </div>
+      </div>
+      <div
+        class="tab-pane fade"
+        id="pills-videos"
+        role="tabpanel"
+        aria-labelledby="pills-videos-tab"
+      >
+        <div class="row">
+          <h4 class="mx-auto py-4">My Videos</h4>
+            {% if course.video_link %}
+          <iframe
+            width="100%"
+            height="auto"
+            src="https://www.youtube.com/embed/5vP29nxEZCg"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          >
+          </iframe>
+            {% endif %}
+        </div>
+          {% if not course.video_link %}
+          <p class="text-center">There is no video</p>
+          {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="leave-a-review py-4">
+    <h5 class="font-weight-bold">Write Your Review</h5>
+
+    <form
+      id="write-review"
+      class="review-form"
+      action="/addCommentToTeacher/{{teacher.id}}/"
+      method="post"
+    >
+      {% csrf_token %}
+      <div class="form-group">
+        <div class="input-rating">
+          <p>Rate the teacher</p>
+          <div class="rating row">
+            <div class="rate">
+              <input type="radio" id="star5" name="rate" value="5" />
+              <label for="star5" title="text">5 stars</label>
+              <input type="radio" id="star4" name="rate" value="4" />
+              <label for="star4" title="text">4 stars</label>
+              <input type="radio" id="star3" name="rate" value="3" />
+              <label for="star3" title="text">3 stars</label>
+              <input type="radio" id="star2" name="rate" value="2" />
+              <label for="star2" title="text">2 stars</label>
+              <input type="radio" id="star1" name="rate" value="1" />
+              <label for="star1" title="text">1 star</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <textarea
+          rows="4"
+          name="comment_text"
+          class="input"
+          placeholder="Type here..."
+        ></textarea>
+      </div>
+      {% if user.id is not None %}
+        {% if user.is_teacher %}
+        <p>Teachers cannot give reviews.</p>
+        {% else %}
+        <div class="row button-group mt-4">
+          <button class="btn my-2 my-sm-0 secondary-button mr-4">Submit</button>
+        </div>
+        {% endif %}
+      {% else %}
+        <p>You must be logged in to post a review.</p>
+        <p class="login-reminder">
+          Click here to <a href="{% url 'login' %}">login</a> or
+          <a href="{% url 'signup' %}">register</a>.
+        </p>
+      {% endif %}
+    </form>
+  </div>
+</div>
+{% endblock content %}

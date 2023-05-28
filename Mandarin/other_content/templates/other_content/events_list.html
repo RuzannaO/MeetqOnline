@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+  All events
+<br>
+  {% for event in events %}
+    <p><a class="btn btn-secondary" href="/event/{{event.id}}" role="button">{{event}}</a></p>
+<br>
+  {% endfor %}
+
+{% endblock content %}

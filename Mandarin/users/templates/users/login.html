@@ -1,0 +1,24 @@
+{% extends "base.html" %} {% load crispy_forms_tags %} {% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="content-section login-form my-5 p-4">
+      <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+          <legend class="font-weight-bold text-md-center">Welcome back!</legend>
+          <p class="text-md-center">Enter your credetials to login</p>
+          {{ form|crispy }}
+        </fieldset>
+        <div class="form-group">
+          <button class="btn secondary-button" type="submit">Login</button>
+        </div>
+      </form>
+      <div class="pt-3">
+        <small class="text-muted login-reminder">
+          New to Mandarin? <a class="ml-2" href="{% url 'signup' %}">Sign up</a>
+        </small>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

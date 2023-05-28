@@ -1,0 +1,90 @@
+{% extends "base.html" %} {% block content %}
+<section class="about-us">
+  <div class="container">
+    <div class="contact-banner">
+      <h2>We’re here to help!</h2>
+      <h4>Contact us and know more</h4>
+    </div>
+    <div class="row justify-content-between py-4">
+      <div class="col-lg-6 col-md-6 col-sm-12 contact-details">
+        <ul>
+          <li class="py-2">
+            <i class="fa fa-phone mr-2" aria-hidden="true"></i> +374 94 117 977
+          </li>
+          <li class="py-2">
+            <i class="fa fa-phone mr-2" aria-hidden="true"></i> +374 77 121 541
+          </li>
+          <li class="py-2">
+            <i class="fa fa-envelope-o mr-2" aria-hidden="true"></i>
+            info@mandarinschool.am
+          </li>
+        </ul>
+        <div class="mapouter">
+          <div class="gmap_canvas">
+            <iframe width="606" height="500" id="gmap_canvas"
+                    src="https://maps.google.com/maps?q=yerevan&t=&z=11&ie=UTF8&iwloc=&output=embed"
+                    frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+            <a href="https://putlocker-is.org"></a><br>
+            <style>.mapouter{position:relative;text-align:right;height:500px;width:606px;}</style>
+            <a href="https://www.embedgooglemap.net">google embed</a>
+            <style>.gmap_canvas {overflow:hidden;background:none!important;height:400px;width:496px;}</style>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 col-md-6 col-sm-12 contact-form">
+        <h5 class="pb-2">Send us a message</h5>
+        <form
+          action="/contact_us_massage/"
+          method="post"
+        >
+          {% csrf_token %}
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              id="fullName"
+              name="full_name"
+              placeholder="Enter your full name"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              class="form-control"
+              type="tel"
+              placeholder="Enter phone number"
+              id="phoneNumber"
+              name="phone_number"
+              pattern="[+\d][0-9]+"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              aria-describedby="emailHelp"
+              placeholder="Enter email"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <textarea
+              class="form-control"
+              id="message"
+              name="massage_text"
+              placeholder="Type your message"
+              rows="3"
+              required
+            ></textarea>
+          </div>
+          <button type="submit" class="btn secondary-button">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

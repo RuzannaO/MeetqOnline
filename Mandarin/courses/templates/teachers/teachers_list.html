@@ -1,0 +1,96 @@
+{% extends "base.html" %} {% block content %}
+<section class="teachers-list-section">
+  <div class="container">
+    <div class="row">
+      <form
+        class="
+          form-inline
+          mt-4
+          search-form-teachers
+          ml-lg-auto ml-md-0
+          justify-content-center
+        "
+        id="search"
+        method="GET"
+        action="{% url 'tutors_list' %}"
+      >
+        <input
+          class="form-control mr-2"
+          type="search"
+          placeholder="Search teachers..."
+          aria-label="Search"
+          name="q"
+        />
+        <button class="btn my-2 my-sm-0 main-button" type="submit">
+          Search
+        </button>
+      </form>
+    </div>
+    <div class="teacher-list">
+      {% for teacher in teachers %}
+      <div class="row teacher-list-item">
+        <div class="col-lg-4 col-md-5 col-sm-12 col-xs-12">
+          <a href="{% url 'teacher_detail' teacher.id %}">
+            <img src="{{teacher.image.url}}" alt="teachers picture" />
+          </a>
+        </div>
+
+        <div class="col-lg-8 col-md-7 col-sm-12 col-xs-12">
+          <h3>
+            <a href="{% url 'teacher_detail' teacher.id %}"
+              >{{teacher.user.get_full_name}}</a
+            >
+          </h3>
+          <p>{{teacher.bio}}</p>
+          {% if teacher.amount_of_comments > 0 %}
+        <div class="rating pb-3">
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star {% if teacher.avg_rate >= 1.5 %} checked {% endif %}"></span>
+          <span class="fa fa-star {% if teacher.avg_rate >= 2.5 %} checked {% endif %}"></span>
+          <span class="fa fa-star {% if teacher.avg_rate >= 3.5 %} checked {% endif %}"></span>
+          <span class="fa fa-star {% if teacher.avg_rate >= 4.5 %} checked {% endif %} "></span>
+        </div>
+        {% endif %}
+          <div class="m-0 teacher-subjects">
+           Subjects:
+              {% for teacher_subject_id, subjects_list in teacher_subjects.items %}
+                {% if teacher_subject_id == teacher.user.id %}
+                  {% for subject in subjects_list %}
+                    <a href="{% url 'subject_detail' pk=subject.id %}">{{subject.name}}</a>{% if not forloop.last %}, {% endif %}
+                  {% endfor %}
+                {% endif %}
+              {% endfor %}
+          </div>
+          <p>Languages: {{teacher.languages}}</p>
+        </div>
+      </div>
+
+      {% empty %}
+        There is no result for the search.
+      {% endfor %}
+      {% if is_paginated %}
+      <div class="row justify-content-end pagination mt-2">
+		  <div class="page-links {% if not page_obj.has_previous %} disabled {% endif %}">
+			<a
+			    class="pr-2"
+			    href="{% if page_obj.has_previous %} /tutors?page={{ page_obj.previous_page_number }} {% endif %}"
+			    ><i class="fa fa-angle-left" aria-hidden="true"></i
+			></a>
+		  </div>
+		  <div class="page-links">
+			  <span class="page-current">
+				{{ page_obj.number }}
+			  </span>
+		  </div>
+		<div class="page-links {% if not page_obj.has_next %} disabled {% endif %}">
+          <a class="pl-2" href=" {% if page_obj.has_next %} /tutors?page={{ page_obj.next_page_number }}  {% endif %}"
+            ><i class="fa fa-angle-right" aria-hidden="true"></i
+          ></a>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

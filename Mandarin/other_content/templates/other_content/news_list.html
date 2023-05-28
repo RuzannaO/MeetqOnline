@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+  All news
+<br>
+  {% for news_item in news %}
+    <p><a class="btn btn-secondary" href="/news/{{news_item.id}}" role="button">{{news_item}}</a></p>
+<br>
+  {% endfor %}
+
+{% endblock content %}

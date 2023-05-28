@@ -1,0 +1,422 @@
+{% extends "base.html" %} {% block content %}
+
+<section class="carousel-section">
+  <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      {% for home_slide in home_slides %}
+        {% if home_slide.position == 1 %}
+        <div class="carousel-item overlay-props first active"
+      style="background: rgba(0, 0, 0, 0.5) url({{home_slide.image.url}})">
+        {% elif home_slide.position == 2 %}
+        <div class="carousel-item overlay-props second"
+      style="background: rgba(0, 0, 0, 0.5) url({{home_slide.image.url}})">
+          {% else %}
+          <div class="carousel-item overlay-props third"
+      style="background: rgba(0, 0, 0, 0.5) url({{home_slide.image.url}})">
+            {% endif %}
+        <div
+          class="d-flex justify-content-center align-items-center flex-column"
+        >
+          <h1>{{home_slide.title}}</h1>
+          <p>
+            {{home_slide.description}}
+          </p>
+		  <button type="button" class="btn secondary-button" data-toggle="modal" data-target="#applyModal">Try For Free</button>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <a
+      class="carousel-control-prev"
+      href="#carouselExampleControls"
+      role="button"
+      data-slide="prev"
+    >
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a
+      class="carousel-control-next"
+      href="#carouselExampleControls"
+      role="button"
+      data-slide="next"
+    >
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</section>
+
+
+
+<section class="courses-section text-center">
+  <div class="container">
+    <h2 class="section-titles pt-5 pb-3">Trending Subjects</h2>
+    <p>
+      Online Live Classes And Inspiring Community.
+    </p>
+    <a href="{% url 'courses_list' %}">
+      <button type="button" class="btn btn-see-all main-button">
+      See All Subjects
+      </button>
+    </a>
+
+    
+
+    <div class="owl-carousel courses-owl-carousel">
+      {% for home_subject in home_subjects %}
+      <a href="{% url 'subject_detail' pk=home_subject.subject.id %}">
+        <div
+          class="item carousel-single-item overlay-props"
+          style="
+            background: rgba(0, 0, 0, 0.45)
+              url({{home_subject.subject.image.url}});
+          "
+        >
+          <h3>{{home_subject.subject.name}}</h3>
+
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<section class="course-section">
+  <div class="container text-center">
+    <h2 class="section-titles pt-5 pb-3">Classes</h2>
+    <p>Our classes are designed to fulfill everyone's interests.</p>
+    <a href="{% url 'courses_list' %}">
+    <button type="button" class="btn btn-see-all main-button">
+      Explore All Classes
+    </button>
+    </a>
+  </div>
+  <div class="container-fluid p-0">
+  <div class="owl-carousel course-owl-carousel corses-wrapper">
+    {% for home_course in home_courses %}
+    <a href="{% url 'course_detail' home_course.course.id %}">
+      <div class="card">
+        <img
+          class="card-img-top"
+          src="{{home_course.course.image.url}}"
+          alt="Image"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{home_course.course.name}}</h5>
+          <ul>
+            {% if home_course.course.min_age_individual and home_course.course.max_age_individual %}
+              <li>Ages {{home_course.course.min_age_individual}}-{{home_course.course.max_age_individual}}</li>
+            {% elif home_course.course.min_age_individual %}
+              <li>Ages {{home_course.course.min_age_individual}}+</li>
+            {% elif home_course.course.max_age_individual %}
+              <li>Ages {{home_course.course.max_age_individual}}+</li>
+            {% elif home_course.course.min_age_group and home_course.course.max_age_group %}
+              <li>Ages {{home_course.course.min_age_group}}-{{home_course.course.max_age_group}}</li>
+            {% elif home_course.course.min_age_group %}
+              <li>Ages {{home_course.course.min_age_group}}+</li>
+            {% elif home_course.course.max_age_group %}
+              <li>Ages {{home_course.course.max_age_group}}+</li>
+            {% else %}
+              <li>Ages No limit</li>
+            {% endif %}
+            <li>Type - {{home_course.course.room_type}}</li>
+          </ul>
+          <div class="trainer-info">
+            <img
+              class="rounded-circle"
+              alt="tutor"
+              src="{{home_course.course.teacher.image.url}}"
+            />
+            <div class="trainer-detail">
+              <h6 class="m-0">{{home_course.course.teacher.user.get_full_name}}</h6>
+              <p style ="font-size: 12px;">{{home_course.course.teacher.bio}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+</section>
+<section class="team-section">
+  <div class="container text-center">
+    <h2 class="section-titles pt-5 pb-3">{{our_team.title}}</h2>
+    <p>{{our_team.description}}</p>
+    <div class="row team-section-row justify-content-center">
+      {% for member in our_team.get_members %}
+      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 team-col">
+        <a href="{% url 'teacher_detail' member.teacher.id %}">
+          <img
+          class="rounded-circle"
+          src="{{member.teacher.image.url}}"
+        />
+        </a>
+
+        <div class="team-info">
+          <h5 class="pt-2">{{member.teacher.user.get_full_name}}</h5>
+          <p class="team-memeber-position">{{member.title}}</p>
+          <p>
+            {{member.short_description}}
+          </p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<section class="quote-section text-center">
+  <div class="container">
+    <h3 class="font-italic">
+      "The best teachers are those who show you where to look but don't tell you
+      what to see"
+    </h3>
+  </div>
+</section>
+<section class="about-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <img src="../static/image/about_us_photos/Sose.PNG" />
+      </div>
+      <div class="col-md-6 about-content">
+        <h2>About Us</h2>
+        <p>
+          Founded in 2021 by a team of young enthusiastic Armenians,
+          Mandarin educational platform aims to provide compatriots
+          in Armenia and around the world with the opportunities to
+          connect and socialize through diverse educational programs.
+          Pursuing the goal of having an inclusive platform environment,
+          Mandarin welcomes everyone of any age or knowledge level.
+          It is our hope that the platform will become a venue for building
+          a vibrant virtual Armenian community with impactful synergy.
+        </p>
+        <a href="{% url 'about_us' %}">
+          <button type="button" class="btn btn-see-all main-button">
+          Learn More
+          </button>
+        </a>
+
+      </div>
+    </div>
+  </div>
+</section>
+<section class="reviews-section">
+  <div class="container">
+    <h3>{{home_reviews_section.title}} </h3>
+    <div class="row review-section-row justify-content-center">
+      {% for student_review in home_reviews_section.reviewsectionitems_set.all %}
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 review-col p-3 ">
+          <div class="d-flex align-items-center pb-4">
+            <a href="{% url 'student_detail' student_review.student.id %}">
+              <img
+              class="card-img-top rounded-circle"
+              src="{{student_review.student.image.url}}"
+              alt="user picture"
+             />
+            </a>
+            <a href="{% url 'student_detail' student_review.student.id %}">
+              <h5 class="user ml-3 font-weight-bold">{{student_review.name}}</h5>
+            </a>
+          </div>
+          <div class="rating">
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+          </div>
+          <p>{{student_review.review_text}}</p>
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+<section class="video-section">
+  <div class="container">
+    <h2 class="section-titles pt-5 pb-3">See Mandarin in Action</h2>
+    <h5 class="text-center pb-2">
+      Watch and learn what it is like to be learning on Mandarin
+    </h5>
+    <ul class="nav nav-pills justify-content-center mandarin-toggle mb-3" id="pills-tab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">See why mandarin</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">How mandarin works</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="pills-tabContent">
+      <div class="tab-pane fade show active text-center" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+        <p>Learn on any device with live video chat classes that fit your learner’s needs, interests, and schedule.</p>
+        <iframe width="100%"
+                height="auto"
+                src="https://www.youtube.com/embed/Aqt52NPo4Zo"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+        </iframe>
+      </div>
+      <div class="tab-pane fade text-center" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+
+        <p>See how to apply for a course in mandarin</p>
+          <iframe
+          width="100%"
+          height="auto"
+          src="https://www.youtube.com/embed/CPwGCBCA18c"
+          title="YouTube video player" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- <section class="news-section">
+  <div class="container text-center">
+    <h2 class="section-titles pt-5 pb-3">Latest News And Upcoming Events</h2>
+  </div>
+
+  <div class="container-fluid">
+  <div class="row">
+  <div class="col-md-6 col-sm-12 news-col">
+    <h4 class="font-weight-bold">News</h4>
+    <div class="row">
+      <div class="col-md-6 col-sm-12">
+    <a href="">
+      <div
+        class="overlay-props"
+        style="
+          background: rgba(0, 0, 0, 0.65)
+            url(../static/image/animalVoting.jpg);
+        "
+      >
+        <h3>Winner of the writing contest</h3>
+      </div>
+    </a>
+  </div>
+  <div class="col-md-6 col-sm-12">
+    <a href="">
+      <div
+        class="overlay-props"
+        style="
+          background: rgba(0, 0, 0, 0.65)
+            url(../static/image/animalVoting.jpg);
+        "
+      >
+        <h3>Winner of the writing contest</h3>
+      </div>
+    </a>
+  </div>
+  </div>
+  <a href="" class="see-more">See more...</a>
+  </div>
+  <div class="col-md-6 col-sm-12 events-col d-flex justify-content-between flex-column">
+    <h4 class="font-weight-bold">Events</h4>
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <a href="">
+          <h5>The Resilience Summit — Armenia: Coping With Challenging Times</h5>
+          <p class="font-italic">April 30 @ 6:00 pm - 9:00 pm</p>
+        </a>
+      </div>
+      <div class="col-md-12 col-sm-12">
+        <a href="">
+          <h5>The Resilience Summit — Armenia: Coping With Challenging Times</h5>
+          <p class="font-italic">April 30 @ 6:00 pm - 9:00 pm</p>
+        </a>
+      </div>
+    </div>
+    <a href="" class="see-more">See more...</a>
+  </div>
+</div>
+</div>
+</section> -->
+
+
+
+
+<section class="join-section">
+  <div class="container text-center">
+    <h3 class="font-weight-bold">Interested In Mandarin?</h3>
+    <h5 class="pb-3">Join our inspiring community</h5>
+    <button type="button" class="btn main-button" data-toggle="modal" data-target="#applyModal">Apply Now</button>
+  </div>
+</section>
+
+<div class="modal fade" id="applyModal" tabindex="-1" role="dialog" aria-labelledby="applyModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form
+          class="apply-for-course-form p-4"
+          action="/applicationFromHome/"
+          method="post"
+          >
+          {% csrf_token %}
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="applyModalLabel">Apply for the course</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="fullName"
+              placeholder="Enter full name"
+              name="full_name"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              placeholder="Enter email"
+              name="email"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="phoneNumber">Phone</label>
+            <input
+              type="tel"
+              class="form-control"
+              id="phoneNumber"
+              placeholder="Enter phone number"
+              pattern="[+\d][0-9]+"
+              name="phone_number"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="phoneNumber">Additional Info</label>
+            <textarea
+              class="form-control"
+              id="message"
+              name="info_text"
+              placeholder="Type your message"
+              rows="3"
+              required
+            ></textarea>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn main-button">Submit</button>
+        <button type="button" class="btn secondary-button" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}

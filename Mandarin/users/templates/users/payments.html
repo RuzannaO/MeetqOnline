@@ -1,0 +1,146 @@
+{% extends "base.html" %} {% load crispy_forms_tags %} {% block content %}
+<div class="container py-5">
+	{% if payment_status == "confirmed" %}
+	<div class="alert alert-success alert-dismissible fade show" role="alert">
+	  Payment was successfully processed.
+	  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+	{% elif payment_status == "error" %}
+	<div class="alert alert-danger alert-dismissible fade show" role="alert">
+	  There was an error. Please try again or contact customer service.
+	  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+	{% endif %}
+
+	<div class='payment-info'>
+		<div class='payment-table'>
+			<h4 class="text-center py-4">My Payments</h4>
+			
+			  {% for payment in not_paid_payment %}
+			  
+			<div class="table-responsive-md">
+			<table class="table">
+			  <thead class="thead-light">
+				<tr>
+				  <th scope="col">Amount (USD)</th>
+					<th scope="col">In AMD</th>
+				  <th scope="col">Period</th>
+				  <th scope="col">Status</th>
+				  <th scope="col">Deadline</th>
+				  <th scope="col">Action</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				<tr>
+				  <td>${{payment.amount}}</td>
+					<td>{% widthratio payment.amount 1 490 %} ֏</td>
+				  <td>{{payment.month}} of {{payment.year}} </td>
+				  <td>{% if payment.is_paid %}
+						Paid
+					  {% else %}
+						Awaiting
+					  {% endif %}
+				  </td>
+					{% if payment.is_deadline %}
+				  <td>{{payment.deadline}}</td>
+					{% endif %}
+				  <td>
+				  {% if not payment.is_paid %}
+					<button class="btn secondary-button" type="submit">
+					  <a href="{% url 'make_order' %}">Pay Online</a>
+					</button>
+				  {% endif %}
+				  </td>
+				</tr>
+			  </tbody>
+			</table>
+			</div>
+			{% empty %}
+			  <div class="container text-center">
+				<p>
+					You don't have any awaiting invoices.
+				</p>
+				<a href="{% url 'courses_list' %}">
+				  <button type="button" class="btn btn-see-all main-button">
+				  See All Courses
+				  </button>
+				</a>
+			  </div>
+			{% endfor %}
+		</div>
+		<div class='payment-history-table'>
+			<h4 class="text-center py-4">Payment History</h4>
+
+			{% if payments_list %}
+			<div class="table-responsive-md">
+			<table class="table">
+			  <thead class="thead-light">
+				<tr>
+				  <th scope="col">Amount</th>
+				  <th scope="col">Period</th>
+				  <th scope="col">Status</th>
+				</tr>
+			  </thead>
+				{% for payment in payments_list %}
+			  <tbody>
+				<tr>
+				  <td>${{payment.amount}}</td>
+				  <td>{{payment.month}} of {{payment.year}}</td>
+				  <td>{% if payment.is_paid %}
+						Paid
+					  {% else %}
+						Awaiting
+					  {% endif %}</td>
+				</tr>
+			  </tbody>
+				{% endfor %}
+			</table>
+			</div>
+			 <div class="row justify-content-end pagination">
+			  <div class="page-links {% if not page_obj.has_next %} disabled {% endif %}">
+				<a class="pr-2" href="#"
+				  ><i class="fa fa-angle-left" aria-hidden="true"></i
+				></a>
+			  </div>
+			  <div class="page-links">
+				<span class="page-current">
+				  1
+				</span>
+			  </div>
+			  <div class="page-links {% if not page_obj.has_next %} disabled {% endif %}">
+				<a class="pl-2" href="#"
+				  ><i class="fa fa-angle-right" aria-hidden="true"></i
+				></a>
+			  </div>
+			</div>
+			{% else %}
+			  <div class="container text-center">
+				<p>
+					You don't have payment history.
+				</p>
+				<a href="{% url 'courses_list' %}">
+				  <button type="button" class="btn btn-see-all main-button">
+				  See All Subjects
+				  </button>
+				</a>
+			  </div>
+			{% endif %}
+
+		</div>
+	</div>
+	
+	<!--
+	<div class="alert alert-success alert-dismissible fade show" role="alert">
+	  Payment was successfully processed.
+	  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+	-->
+	 
+  {% endblock content %}
+</div>

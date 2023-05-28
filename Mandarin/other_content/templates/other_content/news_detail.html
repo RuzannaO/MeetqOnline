@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+  name : {{news}}
+  creator : {{news.creator.username}}
+<br/>
+  {{news.description}}
+{% endblock content %}

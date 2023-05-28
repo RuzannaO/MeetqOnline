@@ -1,0 +1,83 @@
+{% extends "base.html" %} {% load crispy_forms_tags %} {% block content %}
+<button class="btn secondary-button" type="submit">
+      <a href="{% url 'payments' %}">My Payments</a>
+    </button>
+<div class="container py-5">
+  <div class="position-relative border-bottom pb-5">
+    <button class="btn secondary-button edit-button" type="submit">
+      <a href="{% url 'update_profile' %}">Edit profile</a>
+    </button>
+    <div class="row">
+      <div class="col-lg-4 col-md-5 col-sm-12">
+        <img class="account-img" src="{{ user.student.image.url }}" />
+      </div>
+      <div class="col-lg-8 col-md-7 col-sm-12 pt-2">
+        <h4> {{ user.get_full_name }} </h4>
+
+        {% if user.student.bio %}
+          <p><strong>{{user.student.bio}}</strong> </p>
+        {% else %}
+          <p class="edit-link">Bio: <a href="{% url 'update_profile' %}">Please fill</a></p>
+        {% endif %}
+        <p>{{user.student.description |linebreaks}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <h4 class="text-center py-4">My Courses</h4>
+    <div class="row justify-content-center suggested-courses">
+        {% for student_course in user.student.courseparticipant_set.all %}
+        <div class="card col-lg-3 col-md-6 col-sm-6 col-xs-12 border-0">
+          <div class="class-item">
+            <a href="{% url 'course_detail' student_course.course.id %}">
+              <img
+                class="card-img-top"
+                src="{{student_course.course.image.url}}"
+                alt="Card image cap"
+              />
+              <div class="card-body">
+                <h5 class="card-title">{{student_course.course.name}}</h5>
+                <ul>
+                  {% if student_course.course.min_age and student_course.course.max_age %}
+                  <li>Ages {{student_course.course.min_age}}-{{student_course.course.max_age}}</li>
+                  {% elif student_course.course.min_age %}
+                  <li>Ages {{student_course.course.min_age}}+</li>
+                  {% elif student_course.course.max_age %}
+                  <li>Ages {{student_course.course.max_age}}+</li>
+                  {% else %}
+                  <li>Ages No limit</li>
+                  {% endif %}
+                  <li>Type - {{student_course.course.room_type}}</li>
+                </ul>
+                <div class="trainer-info">
+                  <img
+                    class="rounded-circle"
+                    alt="tutor picture"
+                    src="{{student_course.course.teacher.image.url}}"
+                  />
+                  <div class="trainer-detail">
+                    <h5 class="m-0">{{student_course.course.teacher.user.get_full_name}}</h5>
+                    <p class="font-italic">{{student_course.course.teacher.bio}}</p>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      {% empty %}
+      You have not registered for any course.
+      <div class="container text-center">
+        <p>
+
+        </p>
+        <a href="{% url 'courses_list' %}">
+          <button type="button" class="btn btn-see-all main-button">
+          See All Courses
+          </button>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endblock content %}
+</div>

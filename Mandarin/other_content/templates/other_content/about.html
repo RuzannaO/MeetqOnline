@@ -1,0 +1,172 @@
+{% extends "base.html" %} {% block content %}
+<section class="about-us">
+  <div class="about-heading pb-2 pt-4">
+    <h2 class="text-center">Who We Are</h2>
+  </div>
+  <div class="container">
+    <div class="row justify-content-between align-items-center py-4">
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <img src="../static/image/about_us_photos/Sose.PNG" alt="picture" />
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <h4 class="font-weight-bold">Purpose</h4>
+        <p>
+          Founded in 2021 by a team of young enthusiastic Armenians, Mandarin
+          educational platform aims to provide compatriots in Armenia and around
+          the world with the opportunities to connect and socialize through
+          diverse educational programs. Pursuing the goal of having an inclusive
+          platform environment, Mandarin welcomes everyone of any age or
+          knowledge level. It is our hope that the platform will become a venue
+          for building a vibrant virtual Armenian community with impactful
+          synergy.
+        </p>
+      </div>
+    </div>
+    <div class="row justify-content-between align-items-center py-4">
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <h4 class="font-weight-bold">Why?</h4>
+        <p>
+          Education is the driving force for innovation and development.
+          Striving for quality and multi-focus programs, our team has come with
+          diverse educational backgrounds and shares common concerns over the
+          existing educational system/practices in Armenia and beyond. The
+          Platform aims to offer programs that are based on engaging and
+          interactive teaching methods. We are ready to put all possible efforts
+          to build a new, unconventional, open-minded, vibrant and versatile
+          educational environment. A core principle we follow is:
+          <strong>
+            Along with teaching/sharing knowledge, we’d better help the students
+            to discover themselves.</strong
+          >
+        </p>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <img src="../static/image/about_us_photos/Raffi.PNG" alt="picture" />
+      </div>
+    </div>
+    <div class="row justify-content-between align-items-center py-4">
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <img
+          src="../static/image/about_us_photos/Almast.PNG"
+          alt="picture"
+        />
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <h4 class="font-weight-bold">How?</h4>
+        <p>
+          The fees have been optimized to have an inclusive community and to
+          address all the members’ interests. And, yet, we understand that there
+          will be some, especially in Armenia, that may not be able to afford
+          joining our community. For this, we are aiming to build internal
+          mechanisms to support others. One such mechanism will be the virtual
+          mandarin points to be earned by community members. Those points are
+          not a replacement for conventional grades, but become an improved
+          version of them. The participants can use their grades earned by
+          outstanding activity and achievements to buy gifts for others, take
+          part in advanced projects, courses, and give scholarships to those who
+          need them. A key principle is that
+          <strong>one that wants to join will never be refused.</strong> So, to
+          achieve the realization of this, we try to do the best to motivate our
+          students to work harder, be creative and proactive.
+          <strong>The virtual point mandarins will never be sold.</strong>
+        </p>
+      </div>
+    </div>
+    <div class="row justify-content-between align-items-center py-4">
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <h4 class="font-weight-bold">What?</h4>
+        <ul>
+          <li><strong>Broad range of classes and courses</strong></li>
+          <li><strong>Various Tournaments (Chess, Programming, Math ...)</strong></li>
+          <li><strong>Exams & Quizzes</strong></li>
+          <li><strong>Creative Projects</strong></li>
+          <li><strong>Forums & Blogs</strong></li>
+          <li><strong>Talks & Podcasts</strong></li>
+          <li><strong>Other interesting online/offline events.</strong></li>
+        </ul>
+        <p>These and more to come to make a great and thriving community.</p>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <img src="../static/image/about_us_photos/Nare.PNG" alt="picture" />
+      </div>
+    </div>
+  </div>
+</section>
+<section class="join-section">
+  <div class="container text-center">
+    <h3 class="font-weight-bold">Interested In Mandarin?</h3>
+    <h5 class="pb-3">Join our inspiring community</h5>
+    <button type="button" class="btn main-button" data-toggle="modal" data-target="#applyModal">Apply Now</button>
+  </div>
+</section>
+
+<div class="modal fade" id="applyModal" tabindex="-1" role="dialog" aria-labelledby="applyModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form
+          class="apply-for-course-form p-4"
+          action="/applicationFromHome/"
+          method="post"
+          >
+          {% csrf_token %}
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="applyModalLabel">Apply for the course</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="fullName"
+              placeholder="Enter full name"
+              name="full_name"
+            />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              placeholder="Enter email"
+              name="email"
+            />
+          </div>
+          <div class="form-group">
+            <label for="phoneNumber">Phone</label>
+            <input
+              type="tel"
+              class="form-control"
+              id="phoneNumber"
+              placeholder="Enter phone number"
+              pattern="[+\d][0-9]+"
+              name="phone_number"
+            />
+          </div>
+          <div class="form-group">
+            <label for="phoneNumber">Additional Info</label>
+            <textarea
+              class="form-control"
+              id="message"
+              name="info_text"
+              placeholder="Type your message"
+              rows="3"
+              required
+            ></textarea>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn main-button">Submit</button>
+        <button type="button" class="btn secondary-button" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}

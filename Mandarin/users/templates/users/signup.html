@@ -1,0 +1,20 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="account-type-form my-5 p-4">
+      <h3 class="font-weight-bold text-center">Create an account</h3>
+      <p class="text-center">Please select the account type</p>
+        <a href="{% url 'student_register' %}">
+		  <button class="btn main-button" type="submit">
+			I'm a student
+		  </button>
+		</a>
+		<a href="{% url 'teacher_register' %}">
+		  <button class="btn main-button" type="submit">
+			 I'm a teacher
+		  </button>
+		</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

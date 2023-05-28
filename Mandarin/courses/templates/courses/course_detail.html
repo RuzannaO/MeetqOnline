@@ -1,0 +1,768 @@
+{% extends "base.html" %} {% block content %}
+
+<section class="course-detail-section py-5">
+  <div class="container">
+    <div class="row course-details">
+      <div class="col-lg-7 col-md-7 col-sm-12">
+        <h2 class="font-weight-bold course-title">{{course.name}}</h2>
+        <p class="course-short-description mb-0">{{course.short_description}}</p>
+        <div class="row course-tutor-info align-items-center pb-2 pt-4">
+          <a href="{% url 'teacher_detail' course.teacher.id %}">
+            <img src="{{course.teacher.image.url}}" alt="tutor photo" />
+          </a>
+          <h5 class="pl-4 font-weight-bold">
+            {{course.teacher.user.get_full_name}}
+          </h5>
+        </div>
+        {% if course.amount_of_comments > 0 %}
+        <div class="row course-rating align-items-center py-2">
+          <div class="rating">
+
+            <span class="fa fa-star checked"></span>
+            <span
+              class="
+                fa fa-star
+                {%
+                if
+                course.avg_rate
+                >=
+                1.5
+                %}
+                checked
+                {%
+                endif
+                %}
+              "
+            ></span>
+            <span
+              class="
+                fa fa-star
+                {%
+                if
+                course.avg_rate
+                >=
+                2.5
+                %}
+                checked
+                {%
+                endif
+                %}
+              "
+            ></span>
+            <span
+              class="
+                fa fa-star
+                {%
+                if
+                course.avg_rate
+                >=
+                3.5
+                %}
+                checked
+                {%
+                endif
+                %}
+              "
+            ></span>
+            <span
+              class="
+                fa fa-star
+                {%
+                if
+                course.avg_rate
+                >=
+                4.5
+                %}
+                checked
+                {%
+                endif
+                %}
+              "
+            ></span>
+          </div>
+          <span class="pl-3 font-italic"
+            >{{course.amount_of_comments}} total reviews for this course</span
+          >
+        </div>
+        {% endif %}
+        {% if course.teacher.amount_of_comments > 0 %}
+        <div class="row tutor-rating align-items-center pb-2">
+          <div class="rating">
+            <span class="fa fa-star checked"></span>
+            <span
+              class="
+                fa fa-star
+                {%
+                if
+                course.teacher.avg_rate
+                >=
+                1.5
+                %}
+                checked
+                {%
+                endif
+                %}
+              "
+            ></span>
+            <span
+              class="
+                fa fa-star
+                {%
+                if
+                course.teacher.avg_rate
+                >=
+                2.5
+                %}
+                checked
+                {%
+                endif
+                %}
+              "
+            ></span>
+            <span
+              class="
+                fa fa-star
+                {%
+                if
+                course.teacher.avg_rate
+                >=
+                3.5
+                %}
+                checked
+                {%
+                endif
+                %}
+              "
+            ></span>
+            <span
+              class="
+                fa fa-star
+                {%
+                if
+                course.teacher.avg_rate
+                >=
+                4.5
+                %}
+                checked
+                {%
+                endif
+                %}
+              "
+            ></span>
+
+          </div>
+          <span class="pl-3 font-italic"
+            >{{course.teacher.amount_of_comments}} total reviews for the
+            teacher</span
+          >
+        </div>
+        {% endif %}
+        <div class="row button-group mt-4">
+          <a href="#write-review">
+            <button class="btn my-2 my-sm-0 main-button mr-4">
+              Write a review
+            </button></a
+          >
+          {% if user.is_authenticated and user.is_student %}
+          <form
+            action="/applyForCourse/{{course.id}}/"
+            method="post"
+            id="form_logined"
+          >
+            {% csrf_token %}
+          </form>
+
+          <button
+            type="button"
+            class="btn my-2 my-sm-0 secondary-button"
+            value="{{course}}"
+            onclick="window.location.href='{% url 'applyForCourse' pk=course.id %}';"
+            {% for course_participated in user.student.courseparticipant_set.all %}
+              {% if course == course_participated.course %}
+              style="display: none;"
+              {% endif %}
+            {% endfor %}
+          >
+            Enroll
+          </button>
+
+          {% for course_participated in user.student.courseparticipant_set.all %}
+              {% if course == course_participated.course %}
+              <form
+                action="/unenrollFromCourse/{{course.id}}/"
+                method="post"
+                id="form_unenroll"
+              >
+                {% csrf_token %}
+              </form>
+
+              <button
+                type="button"
+                class="btn my-2 my-sm-0 secondary-button"
+                value="{{course}}"
+                onclick="window.location.href='{% url 'unenrollFromCourse' pk=course.id %}';"
+              >
+                Unenroll
+              </button>
+              {% endif %}
+          {% endfor %}
+
+          {% else %}
+          <button
+            type="button"
+            class="btn my-2 my-sm-0 secondary-button"
+            data-toggle="modal"
+            data-target="#applyModal"
+          >
+            Enroll
+          </button>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-lg-5 col-md-5 col-sm-12 img-col">
+        <img src="{{course.image.url}}" alt="course image" />
+      </div>
+    </div>
+    {% if course.room_type == "Individual" %}
+    <div class="row course-includes p-4 my-4 justify-content-between">
+      <div
+        class="
+          col-lg-12 col-md-12 col-sm-12
+          course-includes-item
+          price-col
+          pb-4
+          mb-4
+        "
+      >
+
+        <div class="current-price">
+          <i class="fa fa-usd" aria-hidden="true"></i>
+          {{course.price_individual|floatformat}} per Hour/Class
+        </div>
+        <!-- <span class="previous-price">$15.99</span>
+        <span class="discount-amount">30% off</span> -->
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 course-includes-item">
+        <i class="fa fa-clock-o" aria-hidden="true"></i>
+        {{course.duration_individual}}
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 course-includes-item">
+        <i class="fa fa-calendar" aria-hidden="true"></i>
+        {{course.class_per_week_individual}} Class per Week
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 course-includes-item">
+        <i class="fa fa-child" aria-hidden="true"></i>
+        {% if course.min_age_individual and course.max_age_individual %}
+          {{course.min_age_individual}} - {{course.max_age_individual}} Years Old
+        {% elif course.min_age_individual %}
+          {{course.min_age_individual}}+ Years Old
+        {% elif course.max_age_individual %}
+          Up to {{course.max_age_individual}} Years Old
+        {% else %}
+          Ages No limit
+        {% endif %}
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 course-includes-item">
+        <i class="fa fa-users" aria-hidden="true"></i>
+        {{course.capacity}} Learner per Class
+      </div>
+    </div>
+    {% elif course.room_type == "Group" %}
+    <div class="row course-includes p-4 my-4 justify-content-between">
+      <div
+        class="
+          col-lg-12 col-md-12 col-sm-12
+          course-includes-item
+          price-col
+          pb-4
+          mb-4
+        "
+      >
+
+        <div class="current-price">
+          <i class="fa fa-usd" aria-hidden="true"></i>
+          {{course.price_group|floatformat}} per Hour/Class
+        </div>
+        <!-- <span class="previous-price">$15.99</span>
+        <span class="discount-amount">30% off</span> -->
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 course-includes-item">
+        <i class="fa fa-clock-o" aria-hidden="true"></i>
+        {{course.duration_group}}
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 course-includes-item">
+        <i class="fa fa-calendar" aria-hidden="true"></i>
+        {{course.class_per_week_group}} Class per Week
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 course-includes-item">
+        <i class="fa fa-child" aria-hidden="true"></i>
+        {% if course.min_age_group and course.max_age_group %}
+          {{course.min_age_group}} - {{course.max_age_group}} Years Old
+        {% elif course.min_age_group %}
+          {{course.min_age_group}}+ Years Old
+        {% elif course.max_age_group %}
+          Up to {{course.max_age_group}} Years Old
+        {% else %}
+          Ages No limit
+        {% endif %}
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 course-includes-item">
+        <i class="fa fa-users" aria-hidden="true"></i>
+        2 - {{course.capacity}} Learners per Class
+      </div>
+    </div>
+    {% else %}
+      <div class="row courses-includes m-0 justify-content-between">
+      <div
+        class="course-includes p-4 my-4 col-lg-6 col-md-6 col-sm-12 col-xs-12"
+      >
+        <div class="row">
+		<h4 class="text-center pt-4 mx-auto font-weight-bold">Group</h4>
+          <div
+            class="
+              col-lg-12 col-md-12 col-sm-12
+              course-includes-item
+              price-col
+              pb-4
+              mb-4
+            "
+          >
+            <div class="current-price">
+              <i class="fa fa-usd" aria-hidden="true"></i>
+              {{course.price_group|floatformat}} per Hour/Class
+            </div>
+            <!-- <span class="previous-price">$15.99</span>
+        <span class="discount-amount">30% off</span> -->
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 course-includes-item">
+            <i class="fa fa-clock-o" aria-hidden="true"></i>
+            {{course.duration_group}}
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 course-includes-item">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            {{course.class_per_week_group}} Class per Week
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 course-includes-item">
+            <i class="fa fa-child" aria-hidden="true"></i>
+            {% if course.min_age_group and course.max_age_group %}
+              {{course.min_age_group}} - {{course.max_age_group}} Years Old
+            {% elif course.min_age_group %}
+              {{course.min_age_group}}+ Years Old
+            {% elif course.max_age_group %}
+              Up to {{course.max_age_group}} Years Old
+            {% else %}
+              Ages No limit
+            {% endif %}
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 course-includes-item">
+            <i class="fa fa-users" aria-hidden="true"></i>
+            2 - {{course.capacity}} Learners per Class
+          </div>
+        </div>
+      </div>
+      <div
+        class="course-includes p-4 my-4 col-lg-6 col-md-6 col-sm-12 col-xs-12"
+      >
+        <div class="row">
+		<h4 class="text-center pt-4 mx-auto font-weight-bold">Individual</h4>
+          <div
+            class="
+              col-lg-12 col-md-12 col-sm-12
+              course-includes-item
+              price-col
+              pb-4
+              mb-4
+            "
+          >
+            <div class="current-price">
+              <i class="fa fa-usd" aria-hidden="true"></i>
+              {{course.price_individual|floatformat}} per Hour/Class
+            </div>
+            <!-- <span class="previous-price">$15.99</span>
+      <span class="discount-amount">30% off</span> -->
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 course-includes-item">
+            <i class="fa fa-clock-o" aria-hidden="true"></i>
+            {{course.duration_individual}}
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 course-includes-item">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            {{course.class_per_week_individual}} Class per Week
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 course-includes-item">
+            <i class="fa fa-child" aria-hidden="true"></i>
+            {% if course.min_age_individual and course.max_age_individual %}
+              {{course.min_age_individual}} - {{course.max_age_individual}} Years Old
+            {% elif course.min_age_individual %}
+              {{course.min_age_individual}}+ Years Old
+            {% elif course.max_age_individual %}
+              Up to {{course.max_age_individual}} Years Old
+            {% else %}
+              Ages No limit
+            {% endif %}
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 course-includes-item">
+            <i class="fa fa-users" aria-hidden="true"></i>
+            1 Learner per Class
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+
+    <div
+      class="accordion"
+      id="accordion"
+      role="tablist"
+      aria-multiselectable="true"
+    >
+      <div class="card">
+        <div class="card-header" role="tab" id="heading1">
+          <a
+            class="collapsed"
+            data-toggle="collapse"
+            data-parent="#accordion"
+            href="#collapse1"
+            aria-expanded="true"
+            aria-controls="collapse1"
+          >
+            Topics
+          </a>
+        </div>
+        <div
+          id="collapse1"
+          class="collapse show"
+          role="tabpanel"
+          data-parent="#accordion"
+        >
+          <div class="card-body">
+            Topics to be covered:
+            <p>{{course.topics|linebreaks}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header" role="tab" id="heading2">
+          <a
+            class="collapsed"
+            data-toggle="collapse"
+            data-parent="#accordion"
+            href="#collapse2"
+            aria-expanded="false"
+            aria-controls="collapse2"
+          >
+            Description
+          </a>
+        </div>
+        <div
+          id="collapse2"
+          class="collapse"
+          role="tabpanel"
+          role="tabpanel"
+          data-parent="#accordion"
+        >
+          <div class="card-body">
+            {% if course.long_description %}
+            {{course.long_description}}
+            {% else %}
+            {{course.short_description}}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header" role="tab" id="heading3">
+          <a
+            class="collapsed"
+            data-toggle="collapse"
+            data-parent="#accordion"
+            href="#collapse3"
+            aria-expanded="false"
+            aria-controls="collapse3"
+          >
+            Video
+          </a>
+        </div>
+        <div
+          id="collapse3"
+          class="collapse"
+          role="tabpanel"
+          data-parent="#accordion"
+        >
+          <div class="card-body">
+            {% if course.video_link %}
+            <iframe
+              width="100%"
+              height="auto"
+              src="https://www.youtube.com/embed/{{course.video_link}}"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            >
+            </iframe>
+            {% else %}
+            There is no video
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header" role="tab" id="heading4">
+          <a
+            class="collapsed"
+            data-toggle="collapse"
+            data-parent="#accordion"
+            href="#collapse4"
+            aria-expanded="false"
+            aria-controls="collapse4"
+          >
+            Reviews
+          </a>
+        </div>
+        <div
+          id="collapse4"
+          class="collapse"
+          role="tabpanel"
+          data-parent="#accordion"
+        >
+          <div class="card-body">
+            <div class="review-block">
+              {% for comment in comments%}
+              <div class="row">
+                <div class="col-sm-3">
+                  <a href="{% url 'student_detail' comment.writer.id %}">
+                    <img src="{{comment.writer.image.url}}" class="img-rounded" />
+                  </a>
+                  <div class="review-block-name">
+                    <a href="#">{{comment.writer.user.get_full_name}}</a>
+                  </div>
+                  <div class="review-block-date font-italic">
+                    {{comment.create_at|date:"M d, Y"}}
+                  </div>
+                </div>
+                <div class="col-sm-9">
+                  <div class="rating">
+                    {% if comment.rate %}
+                    <div class="rating">
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star {% if comment.rate >= 1.5 %} checked {% endif %}"></span>
+                      <span class="fa fa-star {% if comment.rate >= 2.5 %} checked {% endif %}"></span>
+                      <span class="fa fa-star {% if comment.rate >= 3.5 %} checked {% endif %}"></span>
+                      <span class="fa fa-star {% if comment.rate >= 4.5 %} checked {% endif %} "></span>
+                    </div>
+                    {% endif %}
+                  </div>
+                  <div class="review-block-description">
+                    {{comment.comment_text}}
+                  </div>
+                </div>
+              </div>
+              {% empty %}
+              There is no review
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="leave-a-review py-4">
+      <h5 class="font-weight-bold">Write Your Review</h5>
+
+      {% if messages %} {% for message in messages %}
+      <div class="alert alert-{{message.tags}}" role="alert">{{ message }}</div>
+      {%endfor%} {% endif %}
+
+      <form
+        id="write-review"
+        class="review-form"
+        action="/addCommentToCourse/{{course.id}}/"
+        method="post"
+      >
+        {% csrf_token %}
+        <div class="form-group">
+          <div class="input-rating">
+            <p>Rate the course</p>
+            <div class="rating row">
+              <div class="rate">
+                <input type="radio" id="star5" name="rate" value="5" />
+                <label for="star5" title="text">5 stars</label>
+                <input type="radio" id="star4" name="rate" value="4" />
+                <label for="star4" title="text">4 stars</label>
+                <input type="radio" id="star3" name="rate" value="3" />
+                <label for="star3" title="text">3 stars</label>
+                <input type="radio" id="star2" name="rate" value="2" />
+                <label for="star2" title="text">2 stars</label>
+                <input type="radio" id="star1" name="rate" value="1" />
+                <label for="star1" title="text">1 star</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <textarea
+            rows="4"
+            name="comment_text"
+            class="input"
+            placeholder="Type here..."
+          ></textarea>
+        </div>
+        {% if user.id is not None %} {% if user.is_teacher %}
+        <p>Teachers cannot give reviews.</p>
+        {% else %}
+        <div class="row button-group mt-4">
+          <button class="btn my-2 my-sm-0 secondary-button mr-4">Submit</button>
+        </div>
+        {% endif %} {% else %}
+        <p>You must be logged in to post a review.</p>
+        <p class="login-reminder">
+          Click here to <a href="{% url 'login' %}">login</a> or
+          <a href="{% url 'signup' %}">register</a>.
+        </p>
+        {% endif %}
+      </form>
+    </div>
+    <div class="row border-top m-0">
+      <h3 class="mx-auto py-4">Suggested Courses</h3>
+      <div class="row justify-content-center suggested-courses">
+        {% for suggested_course in suggested_courses %}
+        <div class="card col-lg-3 col-md-6 col-sm-6 col-xs-12 border-0">
+          <div class="class-item">
+            <a href="{% url 'course_detail' suggested_course.id %}">
+              <img
+                class="card-img-top"
+                src="{{suggested_course.image.url}}"
+                alt="Card image cap"
+              />
+              <div class="card-body">
+                <h5 class="card-title">{{suggested_course.name}}</h5>
+                <ul>
+                  {% if suggested_course.min_age_individual and suggested_course.max_age_individual %}
+                  <li>
+                    Ages
+                    {{suggested_course.min_age_individual}}-{{suggested_course.max_age_individual}}
+                  </li>
+                  {% elif suggested_course.min_age_individual %}
+                  <li>Ages {{suggested_course.min_age_individual}}+</li>
+                  {% elif suggested_course.max_age_individual %}
+                  <li>Ages {{suggested_course.max_age_individual}}+</li>
+                  {% elif suggested_course.min_age_group and
+                  suggested_course.max_age_group %}
+                  <li>
+                    Ages
+                    {{suggested_course.min_age_group}}-{{suggested_course.max_age_group}}
+                  </li>
+                  {% elif suggested_course.min_age_group %}
+                  <li>Ages {{suggested_course.min_age_group}}+</li>
+                  {% elif suggested_course.max_age_group %}
+                  <li>Ages {{suggested_course.max_age_group}}+</li>
+                  {% else %}
+                  <li>Ages No limit</li>
+                  {% endif %}
+                  <li>Type - {{suggested_course.room_type}}</li>
+                </ul>
+                <div class="trainer-info">
+                  <img
+                    class="rounded-circle"
+                    alt="tutor picture"
+                    src="{{suggested_course.teacher.image.url}}"
+                  />
+                  <div class="trainer-detail">
+                    <h5 class="m-0">
+                      {{suggested_course.teacher.user.get_full_name}}
+                    </h5>
+                    <p class="font-italic">{{suggested_course.teacher.bio}}</p>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="applyModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="applyModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <form
+          class="apply-for-course-form p-4"
+          action="/applyForCourseNotRegistered/{{course.id}}/"
+          method="post"
+        >
+          {% csrf_token %}
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="applyModalLabel">
+                Apply for the course
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="full_name"
+                  id="fullName"
+                  placeholder="Enter full name"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  name="email"
+                  id="email"
+                  placeholder="Enter email"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="phoneNumber">Phone</label>
+                <input
+                  type="tel"
+                  class="form-control"
+                  name="phone_number"
+                  id="phoneNumber"
+                  placeholder="Enter phone number"
+                  pattern="[+\d][0-9]+"
+                  required
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn main-button">Submit</button>
+              <button
+                type="button"
+                class="btn secondary-button"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

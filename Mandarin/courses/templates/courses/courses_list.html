@@ -1,0 +1,150 @@
+{% extends "base.html" %} {% block content %}
+
+<section
+  class="banner-section overlay-props"
+  style="background: rgba(0, 0, 0, 0.45) url(../../static/image/space.png)"
+>
+  <h1>Our Courses</h1>
+  <form
+    class="form-inline mt-4 search-form-banner justify-content-center"
+    id="search"
+    method="GET"
+    action="{% url 'courses_list' %}"
+  >
+    <input
+      class="form-control mr-2"
+      type="search"
+      placeholder="Search classes..."
+      aria-label="Search"
+      name="q"
+    />
+    <button class="btn my-2 my-sm-0 main-button" type="submit">Search</button>
+  </form>
+</section>
+
+{% if subjects_amount > 1 and not query_text%}
+<section class="courses-section p-4">
+  <div class="container">
+    <h2 class="section-titles pt-2 pb-4">Our Subjects</h2>
+  </div>
+  <div class="container">
+    <div class="row justify-content-center">
+      {% for subject in subjects %}
+      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-course text-center">
+        <a href="{% url 'subject_detail' pk=subject.id %}">
+          <img class="rounded-circle" src="{{subject.image.url}}" />
+          <h4 class="pt-2">{{subject.name}}</h4>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="classes-section">
+  <div class="container">
+    {% if query_text %}
+      <h2 class="section-titles pt-5 pb-3">Search result</h2>
+      <p>
+        <em>See result for search <strong>{{query_text}}</strong></em>
+      </p>
+    {% elif subjects_amount > 1 %}
+    <h2 class="section-titles pt-5 pb-3">Trending Classes</h2>
+    {% else %}
+    <h2 class="section-titles pt-5 pb-3">{{subjects.name}} Classes</h2>
+    <p>
+      <em>See result for <strong>{{subjects.name}}</strong></em>
+    </p>
+    {% endif %}
+    <div class="row justify-content-center">
+      {% for course in courses %}
+      <div class="card col-lg-3 col-md-6 col-sm-6 col-xs-12 border-0">
+        <div class="class-item">
+          <a href="{% url 'course_detail' course.id %}">
+            <img
+              class="card-img-top"
+              src="{{course.image.url}}"
+              alt="Card image cap"
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{course.name}}</h5>
+              <ul>
+                {% if course.min_age_individual and course.max_age_individual %}
+                  <li>Ages {{course.min_age_individual}}-{{course.max_age_individual}}</li>
+                {% elif course.min_age_individual %}
+                  <li>Ages {{course.min_age_individual}}+</li>
+                {% elif course.max_age_individual %}
+                  <li>Ages {{course.max_age_individual}}+</li>
+                {% elif course.min_age_group and course.max_age_group %}
+                  <li>Ages {{course.min_age_group}}-{{course.max_age_group}}</li>
+                {% elif course.min_age_group %}
+                  <li>Ages {{course.min_age_group}}+</li>
+                {% elif course.max_age_group %}
+                  <li>Ages {{course.max_age_group}}+</li>
+                {% else %}
+                  <li>Ages No limit</li>
+                {% endif %}
+                <li>Type - {{course.room_type}}</li>
+              </ul>
+              <div class="trainer-info">
+                <img
+                  class="rounded-circle"
+                  alt="tutor picture"
+                  src="{{course.teacher.image.url}}"
+                />
+                <div class="trainer-detail">
+                  <h6 class="m-0">{{course.teacher.user.get_full_name}}</h6>
+                  <p style="font-size: 12px">{{course.teacher.bio}}</p>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      {% empty %}
+      No course was found.
+      {% endfor %}
+    </div>
+    {% if is_paginated %}
+    <div class="row justify-content-end pagination">
+      <div class="page-links {% if not page_obj.has_previous %} disabled {% endif %}">
+        <a class="pr-2" href="{% if page_obj.has_previous %} /courses?page={{ page_obj.previous_page_number }} {% endif %}"
+          ><i class="fa fa-angle-left" aria-hidden="true"></i
+        ></a>
+      </div>
+      <div class="page-links">
+        <span class="page-current">
+          {{ page_obj.number }}
+        </span>
+      </div>
+      <div class="page-links {% if not page_obj.has_next %} disabled {% endif %}">
+        <a class="pl-2" href="{% if page_obj.has_next %} /courses?page={{ page_obj.next_page_number }} {% endif %}"
+          ><i class="fa fa-angle-right" aria-hidden="true"></i
+        ></a>
+      </div>
+        
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% if query_text %}
+<section class="courses-section p-4">
+  <div class="container">
+    <h2 class="section-titles pt-2 pb-4">Our Subjects</h2>
+  </div>
+  <div class="container">
+    <div class="row justify-content-center">
+      {% for subject in subjects %}
+      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-course text-center">
+        <a href="{% url 'subject_detail' pk=subject.id %}">
+          <img class="rounded-circle" src="{{subject.image.url}}" />
+          <h4 class="pt-2">{{subject.name}}</h4>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock content %}
