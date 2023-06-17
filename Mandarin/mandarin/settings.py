@@ -28,7 +28,7 @@ SECRET_KEY = '(@@qa=4h3jaq+n#bo7ex-&+idqj_(w%4h+ufxufotv7nzp*nza'
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['mandarinschool.am','meetqonline.com']
+ALLOWED_HOSTS = ['mandarinschool.am','meetqonline.com', '127.0.0.1']
 MAX_UPLOAD_SIZE = 5242880
 
 #ALLOWED_HOSTS = ['mandarinschool.am']

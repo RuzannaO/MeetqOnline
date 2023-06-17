@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% block content %}{% load static %}
 <section class="about-us">
   <div class="container">
     <div class="contact-banner">
@@ -9,14 +9,21 @@
       <div class="col-lg-6 col-md-6 col-sm-12 contact-details">
         <ul>
           <li class="py-2">
-            <i class="fa fa-phone mr-2" aria-hidden="true"></i> +374 94 117 977
+            <i class="fa fa-phone mr-2" aria-hidden="true"></i> +374 55 265 104
           </li>
           <li class="py-2">
             <i class="fa fa-phone mr-2" aria-hidden="true"></i> +374 77 121 541
           </li>
           <li class="py-2">
-            <i class="fa fa-envelope-o mr-2" aria-hidden="true"></i>
-            info@mandarinschool.am
+<!--<i class="fa fa-envelope-o mr-2" aria-hidden="true"></i>-->
+
+
+Message us via Whatsapp <a href="https://api.whatsapp.com/send?phone=0037477121541">
+            <img src="{% static 'whatsapp.png' %}" alt="Image 1" style="width: 20px; height: 20px;"></a>
+             and Telegram
+
+<!--<a href="viber://chat?number=0037477121541"><img src="viber.png" alt="Viber"></a>-->
+<a href="https://t.me/+aaAiVMUIJ_82Yzgy"><img src="{% static 'telegram_logo.png' %}" alt="Image 1" style="width: 20px; height: 20px;">
           </li>
         </ul>
         <div class="mapouter">
