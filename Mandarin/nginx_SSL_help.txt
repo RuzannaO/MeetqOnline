@@ -1,0 +1,36 @@
+scp C:\Users\User\Downloads\certificate_bundle\www.meetqonline.com.crt root@104.237.1.208:/etc/nginx/ssl/www.meetqonline.com.crt
+scp C:\Users\User\Downloads\certificate_bundle\www.meetqonline.com.key root@104.237.1.208:/etc/nginx/ssl/www.meetqonline.com.key
+
+
+sudo chmod 600 /etc/nginx/ssl/www.meetqonline.com.crt
+sudo chmod 600 /etc/nginx/ssl/www.meetqonline.com.key
+
+
+backup nginx.config file
+sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.backup
+
+
+
+    ##
+    # SSL Settings
+    ##
+
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers on;
+
+add the following
+    ssl_certificate /etc/nginx/ssl/www.meetqonline.com.crt;
+    ssl_certificate_key /etc/nginx/ssl/www.meetqonline.com.key;
+
+
+
+scp root@104.237.1.208:/etc/nginx/nginx.conf C:/Users/User/Downloads/nginx.conf
+
+
+scp C:/Users/User/Downloads/nginx.conf root@104.237.1.208:/etc/nginx/nginx.conf
+
+
+
+
+sudo service nginx restart
+
