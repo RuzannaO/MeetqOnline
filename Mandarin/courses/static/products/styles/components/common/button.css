@@ -1,0 +1,48 @@
+.btn:focus {
+    box-shadow: none;
+}
+
+.main-button {
+    color: #f47a17;
+    border: 1px solid #f47a17;
+    border-radius: 20px;
+    padding: 6px 24px;
+    white-space: nowrap;
+}
+
+.main-button a {
+    color: #f47a17;
+}
+
+.main-button:hover {
+    background-color: #f47a17;
+    color: #ffffff;
+}
+
+.main-button:hover a {
+    color: #ffffff;
+}
+
+.secondary-button {
+    border-radius: 20px;
+    background-color: #f47a17;
+    color: #ffffff;
+    padding: 6px 24px;
+    white-space: nowrap;
+}
+
+.secondary-button a {
+    color: #ffffff;
+}
+
+.secondary-button:hover {
+    background-color: #d8690e;
+    color: #ffffff;
+}
+
+.courses-section .row .course-item .secondary-button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border-radius: 0;
+}

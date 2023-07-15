@@ -1,0 +1,134 @@
+input.form-control,
+textarea.form-control {
+    font-size: .9rem;
+}
+
+input.form-control::placeholder,
+textarea.form-control::placeholder {
+    transition: var(--transition-fast);
+    color: currentColor;
+}
+
+input.form-control:focus::placeholder,
+textarea.form-control:focus::placeholder {
+    padding: 0 8px;
+    opacity: 0.5;
+}
+
+.navbar .search-form .form-control,
+.navbar .search-form .form-control:focus {
+    border: none;
+    background-color: #f6f6f6;
+    border-radius: 20px;
+    padding: 4px 16px;
+    width: initial;
+}
+
+.form-control:focus {
+    box-shadow: none;
+}
+
+.login-form .form-control,
+.signup-form .form-control,
+.apply-for-course-form .form-control,
+.profile-details .form-control,
+.contact-form .form-group .form-control,
+.search-form-teachers.form-inline .form-control,
+.search-form-banner.form-inline .form-control {
+    border-radius: 20px;
+}
+
+.search-form-banner.form-inline .form-control {
+    width: 100%;
+    max-width: 315px;
+}
+
+.navbar .search-form .form-control {
+    max-width: 170px;
+}
+
+/*review form*/
+.review-form textarea {
+    width: 40%;
+    border-radius: 8px;
+    padding: 12px;
+    border-color: #f47a17;
+}
+
+@media (max-width: 768px) {
+    .review-form textarea {
+        width: 100%;
+    }
+}
+
+.review-form textarea:focus-visible {
+    outline: none;
+}
+
+
+/*login page*/
+.login-form,
+.signup-form {
+    box-shadow: 0 0 11px 7px rgb(244, 122, 23, 0.06);
+}
+
+.login-form {
+    width: 40%;
+}
+
+.signup-form {
+    width: 60%;
+}
+
+@media (max-width: 768px) {
+    .login-form,
+    .signup-form {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .login-form,
+    .signup-form {
+        box-shadow: none;
+    }
+}
+
+/*sign up*/
+.account-type-form {
+    text-align: center;
+}
+
+.account-type-form a .main-button {
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #272727;
+}
+
+.account-type-form a:hover .main-button  {
+    color: #ffffff;
+}
+
+.account-type-form .main-button {
+    padding: 16px 32px;
+    margin: 16px;
+}
+
+/* contact us */
+.contact-form {
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px 15px;
+    border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+    .contact-form {
+        box-shadow: initial;
+        padding: 10px 15px;
+        border-radius: 0;
+    }
+}
+
+.contact-form h5 {
+    color: #44464d;
+}
