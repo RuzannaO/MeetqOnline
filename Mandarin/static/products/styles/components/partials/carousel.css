@@ -1,0 +1,15 @@
+.carousel-section .carousel-control-next,
+.carousel-section .carousel-control-prev {
+    opacity: 0;
+    transition: var(--transition-fast);
+}
+
+.carousel-section:hover .carousel-control-next,
+.carousel-section:hover .carousel-control-prev {
+    opacity: .5;
+}
+
+.carousel-section .carousel-control-next:hover,
+.carousel-section .carousel-control-prev:hover {
+    opacity: 1;
+}
