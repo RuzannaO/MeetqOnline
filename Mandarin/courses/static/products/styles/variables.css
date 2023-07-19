@@ -2,7 +2,8 @@
     /* - - - - - - - - - - - - - - - - - - - - colors */
     --color-brand: #f47a17;
     --color-white: #fff;
-    --color-grey: #858181;
+    --color-grey-1: #858181;
+    --color-grey-2: #999696;
 
     /* - - - - - - - - - - - - - - - - - - - - gaps */
     --gap-xxs: 2px;

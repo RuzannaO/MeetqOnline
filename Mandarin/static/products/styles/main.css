@@ -355,15 +355,8 @@ input[type='number'] {
 }
 
 /*team-section*/
-.team-section-row,
-.review-section-row {
+.team-section-row {
   padding: 50px 0;
-}
-
-@media (max-width: 768px) {
-  .review-section-row {
-	  padding: 20px 0;
-	}
 }
 
 .team-section .team-col img,
@@ -433,8 +426,7 @@ input[type='number'] {
   background-color: #f2f6f9;
   border: 1px solid rgba(244, 122, 23, 0.5);
   border-radius: 16px;
-  box-shadow: 0px 0px 20px rgb(7 87 182 / 34%);
-  margin: 8px;
+  box-shadow: 0 0 10px 0 rgba(7, 87, 182, 0.34);
 }
 
 .review .fa {
@@ -1092,11 +1084,6 @@ footer .footer-top .row {
 
 .footer-top .social-list .list-group-item i {
   font-size: 20px;
-  color: #ffffff;
-}
-
-footer .copyright {
-  background-color: #7a7979;
   color: #ffffff;
 }
 
