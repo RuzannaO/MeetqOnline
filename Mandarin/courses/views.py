@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from .models import *
-from other_content.models import HomeSlide, HomeOurTeamSection, HomeReviewsSection
+from other_content.models import HomeSlide, HomeOurTeamSection, HomeReviewsSection, News
 from .forms import CourseCommentForm, ApplyForCourseForm, TeacherCommentForm, ApplyFromHomeForm
 from django.db.models import Q
 from django.views.generic import (
@@ -20,12 +20,14 @@ def home(request):
     slides = HomeSlide.objects.filter(position__gt=0)
     our_team = HomeOurTeamSection.objects.get(is_active=True)
     home_reviews_section = HomeReviewsSection.objects.get(is_active=True)
+    news = News.objects.all().order_by('id')
     result = {'home_courses': home_courses,
               'home_subjects': home_subjects,
               'home_slides': home_slides,
               'slides': slides,
               'our_team': our_team,
-              'home_reviews_section': home_reviews_section
+              'home_reviews_section': home_reviews_section,
+              'news': news
               }
 
     return render(request, 'home.html', result)

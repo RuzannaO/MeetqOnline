@@ -234,117 +234,60 @@
   </div>
 </section>
 
-<!--
-<section class="video-section">
-  <div class="container">
-    <h2 class="section-titles pt-5 pb-3">See Meetq in Action</h2>
-    <h5 class="text-center pb-2">
-      Watch and learn what it is like to be learning on Mandarin
-    </h5>
-    <ul class="nav nav-pills justify-content-center mandarin-toggle mb-3" id="pills-tab" role="tablist">
-      <li class="nav-item">
-        <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">See why Meetq</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">How Meetq works</a>
-      </li>
-    </ul>
-    <div class="tab-content" id="pills-tabContent">
-      <div class="tab-pane fade show active text-center" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-        <p>Learn on any device with live video chat classes that fit your learner’s needs, interests, and schedule.</p>
-        <iframe width="100%"
-                height="auto"
-                src="https://www.youtube.com/embed/Aqt52NPo4Zo"
-                title="YouTube video player" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen>
-        </iframe>
-      </div>
-      <div class="tab-pane fade text-center" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
 
-        <p>See how to apply for a course in mandarin</p>
-          <iframe
-          width="100%"
-          height="auto"
-          src="https://www.youtube.com/embed/CPwGCBCA18c"
-          title="YouTube video player" frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
-      </div>
-    </div>
 
-  </div>
-</section>
-
--->
-
-<!--the follwoing part had been commented -->
- <section class="news-section">
+<section class="news-section">
   <div class="container text-center">
-    <h2 class="section-titles pt-5 pb-3">Latest News And Upcoming Events</h2>
-  </div>
-
-  <div class="container-fluid">
-  <div class="row">
-  <div class="col-md-6 col-sm-12 news-col">
-    <h4 class="font-weight-bold">News</h4>
-    <div class="row">
-      <div class="col-md-6 col-sm-12">
-    <a href="https://www.youtube.com/watch?v=DdsvLxvmESY&ab_channel=MeetqOnline">
-      <div
-        class="overlay-props"
-        style="
-          background: rgba(0, 0, 0, 0.45)
-            url(../static/image/flag_youtube.png);
-        "
-      >
-        <h4>Learn Armenian Effortlessly </h4>
-        <h6>Meetq - Armenian Studies Realeased a new Youtube video </h6>
-      </div>
+    <h2 class="section-titles pt-5 pb-3">Welcome to the Meetq Online educational platform!</h2>
+    <p>Join us on our YouTube channel for engaging and informative videos that enhance your learning experience.</p>
+    <p>Subscribe and stay updated with our latest content.</p>
+    <a href="https://www.youtube.com/@MeetqOnline">
+      <button type="button" class="btn btn-see-all main-button">
+        Visit Our YouTube Channel
+      </button>
     </a>
   </div>
-
-
-
-  <div class="col-md-6 col-sm-12 text-center">
-    <a href="https://www.youtube.com/shorts/4xlSJkKWjdw">
-      <div
-        class="overlay-props"
-        style="
-          background: rgba(0, 0, 0, 0.45)
-            url(../static/image/flag_youtube.png);
-        "
-      >
-        <h4>Learn Colors in Armenian</h4>
-        <h6>Meetq - Armenian Studies Realeased a new Youtube video </h6>
+  <div class="container-fluid p-0">
+    <div class="owl-carousel course-owl-carousel corses-wrapper">
+      {% for news_item in news %}
+      {% if news_item.link %}
+      <a href="{{ news_item.link }}">
+        <div class="card">
+          <img class="card-img-top" src="{{news_item.image.url}}" alt="Image" />
+          <div class="card-body">
+            <h5 class="card-title">{{news_item.title}}</h5>
+            <div class="trainer-info">
+              <img class="rounded-circle" alt="tutor" src="../static/image/about_us_photos/logo1_transparent.PNG" />
+              <div class="trainer-detail">
+<!--                <h6 class="m-0">{{home_course.course.teacher.user.get_full_name}}</h6>-->
+                <p style="font-size: 12px;">{{news_item.description|linebreaks }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+      {% else %}
+      <div class="card">
+        <img class="card-img-top" src="{{news_item.image.url}}" alt="Image" />
+        <div class="card-body">
+          <h5 class="card-title">{{news_item.title}}</h5>
+          <div class="trainer-info">
+            <img class="rounded-circle" alt="tutor" src="../static/image/about_us_photos/logo1_transparent.PNG" />
+            <div class="trainer-detail">
+<!--              <h6 class="m-0">{{home_course.course.teacher.user.get_full_name}}</h6>-->
+                <p style="font-size: 12px;">{{news_item.description|linebreaks }}</p>
+            </div>
+          </div>
+        </div>
       </div>
-    </a>
-  </div>
-  </div>
-  <a href="https://www.youtube.com/@MeetqOnline" class="see-more">See more...</a>
-  </div>
-
- <div class="col-md-6 col-sm-12 events-col d-flex justify-content-between flex-column text-center">
-  <h4 class="font-weight-bold">Events</h4>
-  <div class="row">
-    <div class="col-md-12 col-sm-12">
-      <a href="">
-        <h5>Chess Tournament — Our Students Playing</h5>
-        <p class="font-italic">August 18 @ 9:00 pm - 11:00 pm</p>
-      </a>
-    </div>
-    <div class="col-md-12 col-sm-12">
-      <a href="">
-        <h5>Armenian Music Class Students' performance</h5>
-        <p class="font-italic">August 25 @ 9:00 pm - 11:00 pm</p>
-      </a>
+      {% endif %}
+      {% endfor %}
     </div>
   </div>
-  <a href="" class="see-more">See more...</a>
-</div>
-
 </section>
+
+
+
 
 
 
