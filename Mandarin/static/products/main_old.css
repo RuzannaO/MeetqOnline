@@ -17,10 +17,20 @@ main {
   min-height: calc(100vh - 320px);
 }
 
+.container {
+	position: relative;
+}
+
 a,
 a:hover {
   color: #272727;
   text-decoration: none;
+}
+
+.alert {
+	position: absolute;
+	top: 15px;
+    right: 15px;
 }
 
 .form-control:focus,
@@ -33,6 +43,11 @@ a:hover {
   border: 1px solid #f47a17;
   border-radius: 20px;
   padding: 6px 24px;
+  white-space: nowrap;
+}
+
+.main-button a {
+	color: #f47a17;
 }
 
 .main-button:hover {
@@ -40,11 +55,20 @@ a:hover {
   color: #ffffff;
 }
 
+.main-button:hover a {
+	color: #ffffff;
+}
+
 .secondary-button {
   border-radius: 20px;
   background-color: #f47a17;
   color: #ffffff;
   padding: 6px 24px;
+  white-space: nowrap;
+}
+
+.secondary-button a {
+  color: #ffffff;
 }
 
 .secondary-button:hover {
@@ -242,7 +266,7 @@ input[type='number'] {
   }
 
   .carousel .carousel-item {
-    max-height: 368px;
+    height: 368px;
     padding: 100px 40px;
   }
 }
@@ -401,8 +425,8 @@ input[type='number'] {
   border-top-left-radius: 24px;
 }
 
-.suggested-courses {
-  row-gap: 16px;
+.suggested-courses .card{
+  padding-bottom: 16px;
 }
 
 .corses-wrapper .card .trainer-info,
@@ -442,8 +466,7 @@ input[type='number'] {
 }
 
 /*team-section*/
-.team-section-row,
-.review-section-row {
+.team-section-row {
   padding: 50px 0;
 }
 
@@ -469,6 +492,12 @@ input[type='number'] {
 .quote-section,
 .reviews-section {
   padding: 50px 0;
+}
+
+@media (max-width: 768px) {
+  .reviews-section {
+	  padding: 0;
+	}
 }
 
 .quote-section h3 {
@@ -508,7 +537,7 @@ input[type='number'] {
   background-color: #f2f6f9;
   border: 1px solid rgba(244, 122, 23, 0.5);
   border-radius: 16px;
-  box-shadow: 0px 0px 20px rgb(7 87 182 / 34%);
+  box-shadow: 0 0 10px 0 rgba(7, 87, 182, 0.34);
   margin: 8px;
 }
 
@@ -558,21 +587,20 @@ input[type='number'] {
 .mandarin-toggle .nav-item:first-child .nav-link {
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
+  flex: 1;
+  height: 100%;
 }
 
 .mandarin-toggle .nav-item:nth-child(2) .nav-link {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
+  flex: 1;
+  height: 100%;
 }
 
 @media (max-width: 420px) {
-  .mandarin-toggle .nav-item:first-child .nav-link,
-  .mandarin-toggle .nav-item:nth-child(2) .nav-link {
-    border-radius: 4px;
-  }
-
   .mandarin-toggle .nav-item {
-    width: 100%;
+    width: 50%;
     text-align: center;
   }
 }
@@ -612,15 +640,8 @@ input[type='number'] {
 }
 
 /*classes*/
-.courses-section .row {
-  row-gap: 16px;
-  margin: 0;
-}
-
-@media (max-width: 576px) {
-  .courses-section .row {
-    margin: 0 15px;
-  }
+.courses-section .row .item-course {
+ padding-bottom: 16px;
 }
 
 .courses-section .row .course-item {
@@ -778,8 +799,19 @@ input[type='number'] {
 }
 
 @media (max-width: 768px) {
+  .contact-banner {
+	  padding-bottom: 0;
+  }
   .contact-banner h2 {
-    font-size: 36px;
+    font-size: 24px;
+  }
+  .contact-banner h4 {
+    font-size: 18px;
+  }
+  
+  .mapouter,
+  .gmap_canvas{
+	  width: 100%!important;
   }
 }
 
@@ -1126,16 +1158,10 @@ input[type='number'] {
   }
 }
 
-/*profile view*/
-.edit-button {
-  position: absolute;
-  right: 0;
-  z-index: 1;
-}
-
-.edit-button a,
-.edit-button:hover a {
-  color: #ffffff;
+/*payment*/
+.payment-table {
+	padding-bottom: 48px;
+	border-bottom: 1px solid #d8690e;
 }
 
 /*teacher tabs*/
@@ -1143,6 +1169,12 @@ input[type='number'] {
   .teacher-tabs-content .tab-pane {
     padding: 0 15px;
   }
+}
+
+.account-img {
+	width: 100%;
+    max-height: 300px;
+    object-fit: cover;
 }
 
 /*toggle*/
@@ -1227,11 +1259,6 @@ footer .footer-top .row {
 
 .footer-top .social-list .list-group-item i {
   font-size: 20px;
-  color: #ffffff;
-}
-
-footer .copyright {
-  background-color: #7a7979;
   color: #ffffff;
 }
 

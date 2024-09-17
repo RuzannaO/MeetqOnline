@@ -1,0 +1,64 @@
+footer .footer-top {
+    padding: 32px 24px 24px;
+}
+
+footer h5 {
+    margin-bottom: var(--gap-xl);
+}
+
+footer .list-unstyled li:not(:last-child) {
+    margin-bottom: 8px;
+}
+
+footer .list-unstyled li a {
+    display: inline-block;
+    padding: var(--gap-m) calc(2 * var(--gap-m));
+    border-radius: var(--border-radius-l);
+    transition: var(--transition-fast);
+}
+
+footer .list-unstyled li a:hover {
+    background-color: var(--color-grey-1);
+}
+
+footer .list-group-horizontal.list-group {
+    margin: 0 calc(-1 * var(--gap-s));
+}
+
+footer .list-group-horizontal .list-group-item {
+    padding: 0;
+}
+
+footer .list-group-horizontal .list-group-item a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin: 0 var(--gap-s);
+    transition: var(--transition-fast);
+    border-radius: var(--border-radius-round);
+}
+
+footer .list-group-horizontal .list-group-item a:hover {
+    background-color: var(--color-grey-1);
+}
+
+footer .copyright {
+    position: relative;
+    font-size: 13px;
+    padding: 16px 48px;
+    color: var(--color-white);
+    background-color: var(--color-grey-2);
+}
+
+footer .copyright:before {
+    content: "";
+    position: absolute;
+    width: calc(100% - 88px);
+    height: 1px;
+    transform: translateX(-50%);
+    top: 0;
+    left: 50%;
+    background-color: var(--color-white);
+}

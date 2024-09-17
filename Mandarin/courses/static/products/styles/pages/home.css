@@ -1,0 +1,24 @@
+.reviews-section .review-section-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-gap: 16px;
+    padding: 40px 8px;
+}
+
+.reviews-section .review-section-row .review-col {
+    width: 100%;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - Mobile */
+@media only screen and (max-width: 769px) {
+    .reviews-section .review-section-row {
+        grid-template-columns: unset;
+        grid-auto-flow: column;
+        overflow-x: auto;
+        padding-bottom: 12px;
+    }
+
+    .reviews-section .review-section-row .review-col {
+        min-width: 280px;
+    }
+}

@@ -1,0 +1,28 @@
+:root {
+    /* - - - - - - - - - - - - - - - - - - - - colors */
+    --color-brand: #f47a17;
+    --color-white: #fff;
+    --color-grey-1: #858181;
+    --color-grey-2: #999696;
+
+    /* - - - - - - - - - - - - - - - - - - - - gaps */
+    --gap-xxs: 2px;
+    --gap-xs: 4px;
+    --gap-s: 6px;
+    --gap-m: 8px;
+    --gap-l: 10px;
+    --gap-xl: 12px;
+    --gap-xxl: 14px;
+
+    /* - - - - - - - - - - - - - - - - - - - - border radius */
+    --border-radius-xxs: 8px;
+    --border-radius-xs: 10px;
+    --border-radius-s: 12px;
+    --border-radius-m: 16px;
+    --border-radius-l: 20px;
+    --border-radius-round: 20px;
+
+    /* - - - - - - - - - - - - - - - - - - - - transition */
+    --transition-slow: 350ms ease-in-out;
+    --transition-fast: 180ms ease-in-out;
+}
