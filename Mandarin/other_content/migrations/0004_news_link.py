@@ -10,9 +10,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name="news",
-            name="link",
-            field=models.URLField(blank=True, max_length=500, null=True),
-        ),
+        # migrations.AddField(
+        #     model_name="news",
+        #     name="link",
+        #     field=models.URLField(blank=True, max_length=500, null=True),
+        # ),
     ]

@@ -140,3 +140,6 @@ LOGOUT_REDIRECT_URL = 'home'
 AUTH_USER_MODEL = "users.User"
 STATIC_ROOT = 'static'
 
+# Explanation: Django automatically creates a primary key for your models if you don’t explicitly define one. The default is AutoField, but it's recommended to use BigAutoField for better scalability, especially if you anticipate a large number of records.
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

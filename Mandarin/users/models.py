@@ -115,13 +115,13 @@ class Payment(models.Model):
 
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     amount = models.IntegerField(null=True, default=0)
-    month = models.CharField(max_length=9, choices=MONTH_CHOICES,default="January")
-    year = models.IntegerField(max_length=4, choices=year_choices(), default=current_year())
+    month = models.CharField(max_length=9, choices=MONTH_CHOICES, default="January")
+    year = models.IntegerField(choices=year_choices(), default=current_year())  # Removed max_length
     is_deadline = models.BooleanField(default=True)
     deadline = models.DateField(default=deadline_day())
     is_paid = models.BooleanField(default=False)
-    amount_of_lessons = models.IntegerField(max_length=4, default=1)
-    canceled_lessons = models.IntegerField(max_length=4, default=0)
+    amount_of_lessons = models.IntegerField(default=1)  # Removed max_length
+    canceled_lessons = models.IntegerField(default=0)   # Removed max_length
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
